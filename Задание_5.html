@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      margin: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <label>Номер страницы</label>
+    <input class="input1" type="text" placeholder="Введите число" oninput="validation()" >
+  </div>
+  <div>
+    <label>Лимит</label>
+    <input  class="input2" type="text" placeholder="Введите число" oninput="validation()" >
+  </div>
+  <button class="btn" onclick="getImages()">запрос</button>
+  <script>
+    let input1 = document.querySelector('.input1');
+    let input2 = document.querySelector('.input2');
+    let btn = document.querySelector('.btn');
+  
+
+    function validation() {
+      if (input1.value == '' || input2.value == ''){
+        btn.disabled = true;
+      }
+      else {
+        btn.disabled = false;
+      }
+    }
+
+    function getImages() {
+      let value1 = input1.value;
+      let value2 = input2.value;
+      if (isNaN(+(value1 + value2)) || ((value1 < 1 || value1 > 10) && (value2 < 1 || value2 > 10))){
+        let text = document.createElement('p');
+        text.innerHTML = '<p>Номер страницы и лимит вне диапазона от 1 до 10</p>';
+        btn.after(text);
+        return
+      }
+      if (isNaN(value1) || value1 < 1 || value1 > 10) {
+        let text = document.createElement('p');
+        text.innerHTML = '<p>Номер страницы вне диапазона от 1 до 10</p>';
+        btn.after(text);
+        return
+      }
+      if (isNaN(value2) || value2 < 1 || value2 > 10) {
+        let text = document.createElement('p');
+        text.innerHTML = '<p>Лимит вне диапазона от 1 до 10</p>';
+        btn.after(text);
+        return
+      }
+      let url = `https://placeimg.com/640/480/any`;
+      const params = {
+        method: 'GET',
+        mode: 'no-cors',
+        headers: {
+          "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        }
+      }
+      fetch(url, { mode: 'no-cors',})
+      .then((response) => {return response.json();})
+      .then((json) => {console.log(json)})
+    }
+  </script>
+</body>
+</html>

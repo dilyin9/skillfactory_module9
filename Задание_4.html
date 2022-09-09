@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      margin: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <label>Число 1</label>
+    <input class="input1" type="text" placeholder="Введите число" oninput="validation()" >
+  </div>
+  <div>
+    <label>Число 2</label>
+    <input  class="input2" type="text" placeholder="Введите число" oninput="validation()">
+  </div>
+  <button onclick="clicked()">Кнопка</button>
+  <p class="hidden">одно из чисел вне диапазона от 100 до 300</p>
+  <script>
+    let input1 = document.querySelector('.input1');
+    let input2 = document.querySelector('.input2');
+    let btn = document.querySelector('button');
+    function clicked(){
+      if (isNaN(input1.value) && isNaN(input2.value)) {
+        console.log('одно из чисел вне диапазона от 100 до 300');
+      }
+      else {
+        if (input1.value < 100 || input1.value > 300 || input2.value < 100 || input2.value > 300) {
+          console.log('одно из чисел вне диапазона от 100 до 300');
+        }
+        else {
+          let url = `https://picsum.photos/${input1.value}/${input2.value}`;
+          fetch(url) // выходит ошибка 403
+          .then((response) => {return response.json();})
+          .then((data) => {
+            console.log(data)
+          })
+          .catch(() => { console.log('error') });
+        }
+      }
+    }
+    function validation() {
+      if (input1.value == '' || input2.value == ''){
+        btn.disabled = true;
+      }
+      else {
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
